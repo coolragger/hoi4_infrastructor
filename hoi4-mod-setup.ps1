@@ -1,4 +1,6 @@
-﻿New-Item -Name history -ItemType directory
+﻿$Key_input = Read-Host -Prompt "Location of the Mod root folder"
+Set-Location -Path $Key_input
+New-Item -Name history -ItemType directory
 New-Item -Name common -ItemType directory
 New-Item -Name localisation -ItemType directory
 New-Item -Name events -ItemType directory
