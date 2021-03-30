@@ -24,6 +24,7 @@ $TextBox1.Location = New-Object System.Drawing.Point(10,30)
 $TextBox1.Width = 500
 $TextBox1.Height = $Button1.Height
 $TextBox1.AutoSize = $true
+$TextBox1.Enabled = $false
 $window.Controls.Add($TextBox1)
 
 $Label2 = New-Object System.Windows.Forms.Label
@@ -134,7 +135,6 @@ $Button2.Location = New-Object System.Drawing.Point(250,325)
 $window.Controls.Add($Button2)
 
 
-
 $Button1.Add_Click(
 {
     $Browser = New-Object System.Windows.Forms.FolderBrowserDialog
@@ -147,35 +147,37 @@ $Button1.Add_Click(
 )
 $Button2.Add_Click(
 {
-     $Key_input = $TextBox1.Text
-    Set-Location -Path $Key_input
+     if($TextBox1.Text)
+     {
+        $Key_input = $TextBox1.Text
+        Set-Location -Path $Key_input
 
-   if($Checkbox1.Checked -eq $true)
-    {
-         New-Item -Name common -ItemType directory  
-         Set-Location -Path common
-         New-Item -Name ai_areas -ItemType directory
-         New-Item -Name ai_equipment -ItemType directory
-         New-Item -Name ai_focuses -ItemType directory
-         New-Item -Name ai_peace -ItemType directory
-         New-Item -Name ai_strategy -ItemType directory
-         New-Item -Name ai_strategy_plans -ItemType directory
-         New-Item -Name ai_templates -ItemType directory
-         Set-Location -Path ".."
-    }else
+        if($Checkbox1.Checked -eq $true)
         {
-        }
+            New-Item -Name common -ItemType directory  
+            Set-Location -Path common
+            New-Item -Name ai_areas -ItemType directory
+            New-Item -Name ai_equipment -ItemType directory
+            New-Item -Name ai_focuses -ItemType directory
+            New-Item -Name ai_peace -ItemType directory
+            New-Item -Name ai_strategy -ItemType directory
+            New-Item -Name ai_strategy_plans -ItemType directory
+            New-Item -Name ai_templates -ItemType directory
+            Set-Location -Path ".."
+        }else
+            {
+            }
     
-   if($Checkbox2.Checked -eq $true)
-    {
-        New-Item -Name history -ItemType directory
-        New-Item -Name common -ItemType directory
-        New-Item -Name localisation -ItemType directory
-        New-Item -Name countries_l_english.yml -ItemType File 
-        New-Item -Name countries_cosmetic_l_english.yml -ItemType File
-        Set-Location -Path common
-        New-Item -Name countries -ItemType directory
-        New-Item -Name country_tags -ItemType directory
+        if($Checkbox2.Checked -eq $true)
+        {
+            New-Item -Name history -ItemType directory
+            New-Item -Name common -ItemType directory
+            New-Item -Name localisation -ItemType directory
+            New-Item -Name countries_l_english.yml -ItemType File 
+            New-Item -Name countries_cosmetic_l_english.yml -ItemType File
+            Set-Location -Path common
+            New-Item -Name countries -ItemType directory
+            New-Item -Name country_tags -ItemType directory
         Set-Location -Path ".."
         Set-Location -Path history
         New-Item -Name countries -ItemType directory
@@ -296,6 +298,7 @@ $Button2.Add_Click(
     $vab = Get-ChildItem -Filter "*.yml" -Recurse 
     $vab | Rename-Item -NewName { $_.Directory.Name+'_'+$_.Name }
     Move-Item "*.yml" -Destination localisation
+     }
 }
 )
 
